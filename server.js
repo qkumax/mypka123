@@ -1,6 +1,6 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
-const bcryptjs = require("bcryptjsпше");
+const bcryptjs = require("bcryptjs");
 const session = require("express-session");
 var methodOverride = require('method-override');
 const {MongoClient, ObjectId} = require("mongodb");
