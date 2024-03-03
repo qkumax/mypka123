@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create a reservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .form-container, .doctor-item {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .doctor-item {
+            display: flex;
+            align-items: flex-start;
+        }
+        .doctor-image {
+            width: 200px;
+            height: 300px;
+            margin-right: 20px;
+            background-color: #eee;
+            border-radius: 5px;
+        }
+        .doctor-content {
+            flex-grow: 1;
+        }
+        .doctor-content h2, 
+        .doctor-content p, 
+        .doctor-content .timestamp {
+            margin: 5px 0;
+        }
+        .doctor-content .timestamp {
+            color: #999;
+            font-size: 0.8em;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p{
+            max-width: 540px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .form-control {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .form-control input, 
+        .form-control button {
+            width: 80%;
+            padding: 10px;
+            margin: 5px auto;
+            display: block;
+            box-sizing: border-box;
+        }
+        input {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        input:focus {
+            border-color: #007bff;
+        }
+        .doctor-carousel {
+            width: 200px;
+            height: 300px;
+            margin-right: 20px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 5px;
+        }
+
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-slide.active {
+            display: block;
+        }
+        
+        .navbar {
+            background-color: #333;
+            border-radius: 30px; 
+            overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 10px 20px;
+            margin: 10px; 
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+
+        .nav-links {
+            list-style-type: none;
+            padding: 0;
+            display: flex; 
+            margin: 0;
+        }
+
+        .nav-links li {
+            margin: 0 10px; 
+        }
+
+        .nav-links li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 50px; 
+            transition: background-color 0.3s, color 0.3s; 
+        }
+
+        .nav-links li a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        @media screen and (max-width: 600px) {
+            .nav-links {
+                flex-direction: column; 
+            }
+
+            .nav-links li {
+                margin: 5px 0; 
+            }
+
+            .navbar {
+                padding: 20px; 
+            }
+        }
+        .logout-button {
+            background: none;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 50px; 
+            font-family: 'Arial', sans-serif; 
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s; 
+        }
+
+        .logout-button:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        select {
+            width: 72%;
+            padding: 10px;
+            margin: 5px auto;
+            display: block;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #007bff;
+        }
+
+        option {
+            padding: 10px;
+            background-color: white;
+            color: black;
+        }
+
+        select:hover,
+        select:active {
+            border-color: #0056b3;
+        }
+
+        option:disabled {
+            background-color: #f5f5f5;
+            color: #999;
+        }
+
+        option:selected {
+            background-color: #007bff;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="/reservation">Create a reservation</a></li>
+            <li><a href="/doctors">Doctors</a></li>
+            <li><a href="/about">About us</a></li>
+            <li><form action="/logout" method="POST"><button type="submit" class="logout-button">Log out</button></form></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <% if(typeof doctors != 'undefined'){%>
+            <div class="form-container">
+                <h1 style="text-align: center;">Add a reservation</h1>
+                <form action="/reservation" method="POST">
+                    <div class="form-control">
+                        <input type="text" name="name" placeholder="Your Name" value='<%= name %>' required>
+                    </div>
+                    <div class="form-control">
+                        <input type="text" name="phone" placeholder="Your Phone number" value='<%= phone %>' required>
+                    </div>
+                    <div class="form-control">
+                        <input type="text" name="email" placeholder="Your email address" value='<%= email %>' required>
+                    </div>
+                    <div class="form-control">
+                        <p><select name="doctors-list" required>
+                            <option disabled>Choose your doctor</option>
+                            <% doctors.forEach(doctor => {%>
+                                <option value="<%= doctor.name_en %>"><%= doctor.name_en %></option>
+                            <% });%>
+                           </select></p>
+                    </div>
+                    <div class="form-control">
+                        <input type="datetime-local" name="date" placeholder="Choose the date in this format(03.03.2024 10:00)" required>
+                    </div>
+                    <div class="form-control">
+                        <button type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+        <% } else { %>
+            <p>We dont have any doctors yet.</p>
+        <% } %>
+    </div>
+</body>
+</html>
